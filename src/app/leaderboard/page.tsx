@@ -34,6 +34,10 @@ export default async function LeaderboardPage() {
 		<main className="min-h-screen px-6 py-12">
 			<div className="mx-auto max-w-3xl">
 				<h1 className="text-3xl font-bold">Leaderboard</h1>
+				<p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+					Rank is determined by score. If scores are tied, the team that
+					reached that score earlier is ranked higher.
+				</p>
 				{error ? (
 					<p className="mt-4 text-red-600">{error}</p>
 				) : (

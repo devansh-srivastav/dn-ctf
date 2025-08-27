@@ -5,6 +5,17 @@ export const dynamic = "force-dynamic";
 export default async function LeaderboardPage() {
 	let items: LeaderboardItem[] = [];
 	let error: string | null = null;
+	const formatUTCPlus2 = (iso: string) =>
+		new Intl.DateTimeFormat("en-GB", {
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
+			hour12: false,
+			timeZone: "Etc/GMT-2", // UTC+2 fixed offset
+		}).format(new Date(iso)) + " (UTC+2)";
 	try {
 		// Prefer direct server call for performance
 		items = await fetchLeaderboard();
@@ -65,7 +76,7 @@ export default async function LeaderboardPage() {
 											<td className="px-4 py-2">{index + 1}</td>
 											<td className="px-4 py-2">{item.teamName}</td>
 											<td className="px-4 py-2">{item.score}</td>
-											<td className="px-4 py-2">{new Date(item.updatedAt).toLocaleString()}</td>
+											<td className="px-4 py-2">{formatUTCPlus2(item.updatedAt)}</td>
 											
 										</tr>
 									))

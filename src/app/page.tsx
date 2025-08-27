@@ -10,7 +10,7 @@ export default function Home() {
 						Compete in the <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CTF Arena</span>
 					</h1>
 					<p className="mt-3 text-lg text-neutral-700 dark:text-neutral-300">
-						Start a challenge instance and climb the leaderboard in real-time.
+						Start a challenge and climb the leaderboard.
 					</p>
 					<div className="mt-8 flex flex-col sm:flex-row gap-3">
 						<StartChallengeButton />

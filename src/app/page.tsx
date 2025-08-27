@@ -5,7 +5,7 @@ export default function Home() {
 	return (
 		<main>
 			<section className="relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-8 sm:p-12">
-				<div className="relative z-10 max-w-3xl">
+				<div className="relative z-10 w-full">
 					<h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
 						Compete in the <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CTF Arena</span>
 					</h1>

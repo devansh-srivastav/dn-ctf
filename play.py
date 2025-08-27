@@ -37,6 +37,12 @@ def get_appwrite() -> tuple[Client, Databases, str, str]:
 def upsert_score(team_name: str, delta_score: int) -> dict:
     _, databases, database_id, collection_id = get_appwrite()
 
+    # Only allow valid level scores and map to boolean fields
+    level_map = {20: "easy", 30: "medium", 50: "hard"}
+    if delta_score not in level_map:
+        raise ValueError("Score must be one of: 20 (Easy), 30 (Medium), 50 (Hard)")
+    level_field = level_map[delta_score]
+
     # Find existing document by team_name
     res = databases.list_documents(
         database_id,
@@ -46,13 +52,22 @@ def upsert_score(team_name: str, delta_score: int) -> dict:
 
     if int(res.get("total", 0)) > 0 and len(res.get("documents", [])) > 0:
         doc = res["documents"][0]
+        # If level already achieved, do not update score
+        if bool(doc.get(level_field, False)):
+            return {
+                "status": "skipped",
+                "reason": f"{level_field.capitalize()} already completed",
+                "id": doc.get("$id"),
+                "score": int(doc.get("score", 0)),
+            }
         current_score = int(doc.get("score", 0))
         new_score = current_score + int(delta_score)
+        updated_fields = {"score": new_score, level_field: True}
         updated = databases.update_document(
             database_id,
             collection_id,
             doc["$id"],
-            {"score": new_score},
+            updated_fields,
         )
         return {"status": "updated", "id": updated.get("$id"), "score": new_score}
 
@@ -61,7 +76,13 @@ def upsert_score(team_name: str, delta_score: int) -> dict:
         database_id,
         collection_id,
         ID.unique(),
-        {"team_name": team_name, "score": int(delta_score)},
+        {
+            "team_name": team_name,
+            "score": int(delta_score),
+            "easy": level_field == "easy",
+            "medium": level_field == "medium",
+            "hard": level_field == "hard",
+        },
     )
     return {"status": "created", "id": created.get("$id"), "score": int(delta_score)}
 
@@ -74,7 +95,7 @@ def main() -> None:
 
     with st.form("score_form", clear_on_submit=False):
         team = st.text_input("Team Name", placeholder="e.g. red-pandas")
-        score = st.number_input("Score to add", min_value=0, step=1, value=0)
+        score = st.number_input("Score to add (20 = Easy, 30 = Medium, 50 = Hard)", min_value=0, step=10, value=0)
         submitted = st.form_submit_button("Submit Score", use_container_width=True)
 
         if submitted:
@@ -93,6 +114,9 @@ def main() -> None:
                         )
                 except Exception as e:  # noqa: BLE001
                     st.error(f"Failed to submit score: {e}")
+                else:
+                    if result.get("status") == "skipped":
+                        st.info(result.get("reason", "Level already completed"))
 
 
 if __name__ == "__main__":

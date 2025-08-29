@@ -12,10 +12,10 @@ export default function Home() {
 					<p className="mt-3 text-lg text-neutral-700 dark:text-neutral-300">
 						Start a challenge and climb the leaderboard.
 					</p>
-					<div className="mt-8 flex flex-col sm:flex-row gap-3">
+					<div className="mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
 						<StartChallengeButton />
 						<Link
-							className="inline-flex items-center justify-center rounded-md border border-black/10 dark:border-white/10 px-4 py-2 text-sm font-medium hover:bg-black/5 dark:hover:bg-white/10"
+							className="inline-flex w-full sm:w-auto items-center justify-center rounded-md border border-black/10 dark:border-white/10 px-4 py-2 text-sm font-medium hover:bg-black/5 dark:hover:bg-white/10"
 							href="/leaderboard"
 						>
 							View Leaderboard

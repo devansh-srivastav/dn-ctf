@@ -30,11 +30,11 @@ export default function StartChallengeButton() {
 	}
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col gap-2 w-full sm:w-auto">
 			<button
 				onClick={onClick}
 				disabled={loading}
-				className="inline-flex items-center rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700 disabled:opacity-60"
+				className="inline-flex w-full sm:w-auto items-center justify-center rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700 disabled:opacity-60"
 			>
 				{loading ? "Starting..." : "Start Challenge"}
 			</button>

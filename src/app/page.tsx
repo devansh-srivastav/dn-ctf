@@ -63,6 +63,7 @@ export default function Home() {
 								<li>Easy → +20 points on win</li>
 								<li>Medium → +30 points on win</li>
 								<li>Hard → +50 points on win</li>
+								<li>Successfully winning all of the 3 levels → +100 extra bonus points</li>
 							</ul>
 						</div>
 						<div>
